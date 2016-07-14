@@ -1,4 +1,4 @@
-// https://github.com/h2oai/vis-components#readme Version 0.1.0. Copyright 2016 undefined.
+// https://github.com/micahstubbs/grouped-bar-chart#readme Version 0.1.0. Copyright 2016 undefined.
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3')) :
   typeof define === 'function' && define.amd ? define(['exports', 'd3'], factory) :
