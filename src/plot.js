@@ -1,6 +1,7 @@
 import d3 from 'd3';
+import _ from 'lodash';
 
-export default function (selector, data, options) {
+export default function (selector, inputData, options) {
   // set default configuration
   const cfg = {
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
@@ -46,6 +47,7 @@ export default function (selector, data, options) {
     .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+  let data = _.cloneDeep(inputData);
   const labels = d3.keys(data[0]).filter(key => key !== groupByVariable);
 
   data.forEach(d => {
