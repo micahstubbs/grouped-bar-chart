@@ -1,13 +1,14 @@
-// https://github.com/micahstubbs/grouped-bar-chart#readme Version 0.1.1. Copyright 2016 undefined.
+// https://github.com/micahstubbs/grouped-bar-chart#readme Version 0.1.2. Copyright 2016 undefined.
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'd3'], factory) :
-  (factory((global.d3 = global.d3 || {}),global.d3));
-}(this, function (exports,d3) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3'), require('lodash')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'd3', 'lodash'], factory) :
+  (factory((global.d3 = global.d3 || {}),global.d3,global._));
+}(this, function (exports,d3,_) { 'use strict';
 
   d3 = 'default' in d3 ? d3['default'] : d3;
+  _ = 'default' in _ ? _['default'] : _;
 
-  function plot (selector, data, options) {
+  function plot (selector, inputData, options) {
     // set default configuration
     const cfg = {
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
@@ -53,6 +54,7 @@
       .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+    let data = _.cloneDeep(inputData);
     const labels = d3.keys(data[0]).filter(key => key !== groupByVariable);
 
     data.forEach(d => {
