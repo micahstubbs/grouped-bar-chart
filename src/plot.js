@@ -1,3 +1,4 @@
+
 import d3 from 'd3';
 import _ from 'lodash';
 
@@ -23,10 +24,44 @@ export default function (selector, inputData, options) {
   }
 
   const margin = cfg.margin;
-  const width = cfg.baseWidth - margin.left - margin.right;
-  const height = cfg.baseHeight - margin.top - margin.bottom;
+  // const width = cfg.baseWidth - margin.left - margin.right;
+  // const height = cfg.baseHeight - margin.top - margin.bottom;
   const groupByVariable = cfg.groupByVariable;
   const barColors = cfg.barColors;
+
+  // use these dimensions for the parent SVG
+  const innerWidth = cfg.baseWidth;
+  const innerHeight = cfg.baseHeight;
+
+  let svgWidth;
+  if (String(innerWidth).indexOf('%') > -1) {
+    svgWidth = innerWidth;
+  }
+  else {
+    svgWidth = innerWidth + margin.left + margin.right
+  }
+
+  let svgHeight;
+  if (String(innerHeight).indexOf('%') > -1) {
+    svgHeight = innerHeight;
+  }
+  else {
+    svgHeight = innerHeight + margin.top + margin.bottom
+  }
+
+  const svg = d3.select(selector).append('svg')
+    .attr('width', svgWidth)
+    .attr('height', svgHeight)
+    .attr('viewBox', '0 0 100 100')
+    .attr('preserveAspectRatio', 'none')
+    .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  // use these dimensions for everything else
+  // and know that they will be SVG-scaled
+  // since we set the viewBox attribute
+  const width = 100;
+  const height = 100;
 
   // console.log(`width ${width} height ${height}`);
 
@@ -40,12 +75,6 @@ export default function (selector, inputData, options) {
 
   const color = d3.scale.ordinal()
     .range(barColors);
-
-  const svg = d3.select(selector).append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
   let data = _.cloneDeep(inputData);
   const labels = d3.keys(data[0]).filter(key => key !== groupByVariable);

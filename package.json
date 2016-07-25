@@ -1,6 +1,6 @@
 {
   "name": "grouped-bar-chart",
-  "version": "0.1.3",
+  "version": "0.2.3",
   "description": "a grouped bar chart",
   "main": "build/grouped-bar-chart.js",
   "scripts": {
